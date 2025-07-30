@@ -47,7 +47,7 @@ while True:
         else:
             ema_x = ema_alpha * avg_x + (1 - ema_alpha) * ema_x
             ema_y = ema_alpha * avg_y + (1 - ema_alpha) * ema_y
-        pyautogui.moveTo(avg_x, avg_y)
+        pyautogui.moveTo(ema_x, ema_y, duration=0.01)
 
         pinch_dist = ((ix - tx) ** 2 + (iy - ty) ** 2) ** 0.5
         if pinch_dist < 40 and (time.time() - last_click_time > click_cooldown):
