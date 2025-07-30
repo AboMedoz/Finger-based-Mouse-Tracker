@@ -35,7 +35,7 @@ while True:
 
         ix, iy = int(lms[8].x * w), int(lms[8].y * h)
         tx, ty = int(lms[4].x * w), int(lms[4].y * h)
-        mx, my = int(lms[12].x * w), int(lms[12].y * h)
+        # mx, my = int(lms[12].x * w), int(lms[12].y * h)
 
         screen_x = np.interp(ix, (0, w), (0, screen_w))
         screen_y = np.interp(iy, (0, h), (0, screen_h))
@@ -64,7 +64,7 @@ while True:
 
         cv2.circle(frame, (ix, iy), 10, (0, 0, 255), -1)
         cv2.circle(frame, (tx, ty), 10, (0, 0, 255), -1)
-        cv2.circle(frame, (mx, my), 10, (0, 0, 255), -1)
+        # cv2.circle(frame, (mx, my), 10, (0, 0, 255), -1)
         cv2.line(frame, (ix, iy), (tx, ty), (255, 255, 255), 2)
         mp_draw.draw_landmarks(frame, hand, mp_hands.HAND_CONNECTIONS)
 
