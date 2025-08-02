@@ -6,7 +6,7 @@ import mediapipe as mp
 import numpy as np
 import pyautogui
 
-from helpers import fingers_state
+from helpers import fingers_state, pinch_dist
 
 cap = cv2.VideoCapture(0)
 
@@ -37,9 +37,10 @@ while True:
 
         ix, iy = int(lms[8].x * w), int(lms[8].y * h)
         tx, ty = int(lms[4].x * w), int(lms[4].y * h)
+        mx, my = int(lms[12].x * w), int(lms[12].y * h)
 
         # Track Index
-        screen_x = np.interp(ix, (0, w), (0, screen_w))
+        screen_x = np.interp(ix, (0, w * 2), (0, screen_w * 2))
         screen_y = np.interp(iy, (0, h), (0, screen_h))
         postion_buffer.append((screen_x, screen_y))
         avg_x = np.mean([pt[0] for pt in postion_buffer])
@@ -52,11 +53,19 @@ while True:
         pyautogui.moveTo(ema_x, ema_y, duration=0.01)
 
         # Click
-        pinch_dist = ((ix - tx) ** 2 + (iy - ty) ** 2) ** 0.5
-        if pinch_dist < 30 and (time.time() - last_click_time > click_cooldown):
+        click_pinch_dist = pinch_dist(ix, tx, iy, ty)
+        if click_pinch_dist < 30 and (time.time() - last_click_time > click_cooldown):
             pyautogui.click()
             last_click_time = time.time()
             cv2.putText(frame, 'Click!', (ix + 20, iy - 20), cv2.FONT_HERSHEY_SIMPLEX, 1,
+                        (0, 0, 255), 2)
+
+        # Right Click
+        right_click = pinch_dist(mx, tx, my, ty)
+        if right_click < 20 and (time.time() - last_click_time > click_cooldown):
+            pyautogui.rightClick()
+            last_click_time = time.time()
+            cv2.putText(frame, 'Right Click!', (ix + 20, iy - 20), cv2.FONT_HERSHEY_SIMPLEX, 1,
                         (0, 0, 255), 2)
 
         # Scroll
@@ -68,6 +77,7 @@ while True:
 
         cv2.circle(frame, (ix, iy), 10, (0, 0, 255), -1)
         cv2.circle(frame, (tx, ty), 10, (0, 0, 255), -1)
+        cv2.circle(frame, (mx, my), 10, (0, 0, 255), -1)
         cv2.line(frame, (ix, iy), (tx, ty), (255, 255, 255), 2)
         mp_draw.draw_landmarks(frame, hand, mp_hands.HAND_CONNECTIONS)
 

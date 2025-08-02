@@ -1,3 +1,7 @@
+def pinch_dist(x1, x2, y1, y2):
+    return ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
+
+
 def fingers_state(lms):
     fingers = []
 

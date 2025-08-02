@@ -4,12 +4,13 @@ Using your Webcam and Fingers track and control your Mouse
 
 ---
 ## Controls
-#### **Track**: Index Finger
-#### **Click**: Pinch Index + Thumb 
-#### **Scroll**: 
+#### **Track** : Index Finger
+#### **Click** : Pinch Index + Thumb 
+#### **Scroll** : 
     Up : Fingers Opened
     Down: Fingers Closed
-#### **Quit**: q
+#### **Quit** : q
+### **Right Click** : Pinch Middle + Thumb
 
 ---
 ## Building
